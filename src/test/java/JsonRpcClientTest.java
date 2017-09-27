@@ -17,11 +17,11 @@ public class JsonRpcClientTest {
 
 	public static void main(String[] args) throws Throwable {
 		// String url = "http://127.0.0.1:8080/rpcdemo/json-rpc";
-		String url = "http://127.0.0.1:89/jsonrpc";
+		String url = "http://127.0.0.1:80/api/jsonrpc";
 
 		//String jsonparams = "{\"jsonrpc\":\"2.0\",\"method\":\"metric.getUserProjectList\",\"params\":[\"guoenzhou\"],\"id\":\"10\"}";
 		
-		String jsonparams= "{\"jsonrpc\":\"2.0\",\"method\":\"plugin.getPluginList\",\"id\":\"10\"}";
+		String jsonparams= "{\"jsonrpc\":\"2.0\",\"method\":\"user.getVersion\",\"id\":\"10\"}";
 		
 		//String jsonparams = "[{\"jsonrpc\":\"2.0\",\"method\":\"metric.getUserProjectList\",\"params\":[\"guoenzhou\"],\"id\":\"10\"},{\"jsonrpc\":\"2.0\",\"method\":\"plugin.getPluginList\",\"id\":\"10\"}]";
 		String result = get_data(jsonparams, url);

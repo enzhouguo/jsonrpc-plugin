@@ -1,5 +1,8 @@
 package run;
 
+import java.io.IOException;
+import java.net.UnknownHostException;
+
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -8,8 +11,9 @@ import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.core.JFinal;
 
-import plugin.jsonrpc.JsonRpcPlugin;
 import plugin.jsonrpc.RpcBaseController;
+import plugin.jsonrpc.jfinal.JsonRpcServerPlugin;
+import plugin.jsonrpc.transport.StockTransportServer;
 import service.HelloService;
 import service.HelloServiceImpl;
 import service.UserService;
@@ -38,21 +42,32 @@ public class HandleConfig extends JFinalConfig {
 	 */
 	public void configRoute(Routes me) {
 		me.add("/jsonrpc", RpcBaseController.class);
-		//me.add("/jsonrpc", JsonRPCController.class);
 	}
 
 	/**
 	 * 配置插件
 	 */
 	public void configPlugin(Plugins me) {		
-		JsonRpcPlugin  jsonrpcPlugin = new JsonRpcPlugin();
+		JsonRpcServerPlugin  jsonrpcPlugin = new JsonRpcServerPlugin();		
+		try {
+			StockTransportServer stock = new StockTransportServer("0.0.0.0", 8088);
+			jsonrpcPlugin.setTransport(stock);		
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+//		HttpTransportServer http = new HttpTransportServer(8089);
+//		jsonrpcPlugin.setTransport(http);
 		jsonrpcPlugin.addService("hello", new HelloServiceImpl(), HelloService.class);
-		jsonrpcPlugin.addService("user", new UserServiceImpl(), UserService.class);
+		jsonrpcPlugin.addService("user", new UserServiceImpl(), UserService.class);	
 		me.add(jsonrpcPlugin);
 	}
 
 	/**
-	 * 配置全局拦截�?
+	 * 配置全局拦截
 	 */
 	public void configInterceptor(Interceptors me) {
 		//me.add(RpcFilter.class);
@@ -60,7 +75,7 @@ public class HandleConfig extends JFinalConfig {
 	}
 
 	/**
-	 * 配置处理�?
+	 * 配置处理
 	 */
 	public void configHandler(Handlers me) {
 		
@@ -86,7 +101,7 @@ public class HandleConfig extends JFinalConfig {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	} 
 	
 	
 	

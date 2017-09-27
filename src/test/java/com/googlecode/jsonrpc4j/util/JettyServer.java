@@ -17,11 +17,11 @@ import com.googlecode.jsonrpc4j.AnnotationsErrorResolver;
 import com.googlecode.jsonrpc4j.JsonRpcServer;
 import com.googlecode.jsonrpc4j.util.JettyServer.JsonRpcTestServlet;
 
-@SuppressWarnings("WeakerAccess")
 public class JettyServer implements AutoCloseable {
 
 	public static final String SERVLET = "someSunnyServlet";
 	private static final String PROTOCOL = "http";
+	private static final String DEFAULT_LOCAL_HOSTNAME = "127.0.0.1";
 
 	private final Class<?> service;
 	private Server jetty;
@@ -55,7 +55,7 @@ public class JettyServer implements AutoCloseable {
 		jetty.stop();
 	}
 
-	public static class JsonRpcTestServlet extends HttpServlet {
+	public class JsonRpcTestServlet extends HttpServlet {
 
 		static final long serialVersionUID = 1L;
 		private transient JsonRpcServer jsonRpcServer;
@@ -67,7 +67,8 @@ public class JettyServer implements AutoCloseable {
 				final Object instance = aClass.getConstructor().newInstance();
 				jsonRpcServer = new JsonRpcServer(instance);
 				jsonRpcServer.setErrorResolver(AnnotationsErrorResolver.INSTANCE);
-			} catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
+			} catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | InvocationTargetException
+					| IllegalAccessException e) {
 				e.printStackTrace();
 			}
 

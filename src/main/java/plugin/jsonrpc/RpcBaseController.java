@@ -1,8 +1,8 @@
 package plugin.jsonrpc;
 
-import java.io.IOException;
-
 import com.jfinal.core.Controller;
+
+import plugin.jsonrpc.jfinal.JsonRpcKit;
 
 /**
  * IndexController
@@ -11,12 +11,7 @@ import com.jfinal.core.Controller;
 public class RpcBaseController extends Controller {
 
 	public void index() {
-		JsonRpcHemaServer jsonRpcServer = JsonRpcKit.getInstance();
-		try {
-			jsonRpcServer.handleRequest(getRequest().getInputStream(), getResponse().getOutputStream());
-		} catch (IOException e) {
-			renderJson("{\"code\":\"error\"}");
-		}
+		JsonRpcKit.handleRequest(getRequest(), getResponse());
 		renderNull();
 	}
 

@@ -22,7 +22,7 @@ public class UserServiceImplTest {
 	@Before
 	public void setUp() {
 		//client = new JsonRpcClient();
-		String url = "http://127.0.0.1/jsonrpc";
+		String url = "http://127.0.0.1/api/jsonrpc";
 		try {
 			client = new JsonRpcHttpClient(new URL(url));
 		} catch (MalformedURLException e) {
@@ -52,17 +52,17 @@ public class UserServiceImplTest {
 		System.out.println(str);
 	}
 	
-	@Test
-	public void getString(){
-		UserService service = ProxyUtil.createClientProxy(UserService.class.getClassLoader(),UserService.class, client);
-	
-		List<User> a = service.findAll();
-		for (User user : a) {
-			System.out.println(user.getName()+""+user.getAge());
-		}
-		//System.out.println(a);
-		
-	}
+//	@Test
+//	public void getString(){
+//		UserService service = ProxyUtil.createClientProxy(UserService.class.getClassLoader(),UserService.class, client);
+//	
+//		List<User> a = service.findAll();
+//		for (User user : a) {
+//			System.out.println(user.getName()+""+user.getAge());
+//		}
+//		//System.out.println(a);
+//		
+//	}
 
 
 }
